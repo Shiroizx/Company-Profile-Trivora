@@ -78,8 +78,12 @@
         </div>
     </div>
 
-    {{-- Bottom gradient fade into white --}}
-    <div class="absolute -bottom-px left-0 right-0 z-10 h-32 bg-gradient-to-t from-white to-transparent"></div>
+    {{-- Bottom edge mask --}}
+    <div class="absolute -bottom-px left-0 right-0 z-10 translate-y-px">
+        <svg viewBox="0 0 1440 60" class="w-full text-white" preserveAspectRatio="none">
+            <path fill="currentColor" d="M0,60 L1440,60 L1440,0 C1080,45 360,45 0,0 Z"/>
+        </svg>
+    </div>
 </section>
 @endif
 
