@@ -1,0 +1,319 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+    --color-navy-950: #030a14;
+    --color-navy-900: #0a1628;
+    --color-navy-800: #0d2137;
+    --color-navy-700: #143052;
+    --color-navy-600: #1a3f66;
+    --color-navy-300: #7a9cbf;
+    --color-navy-100: #d9e3ed;
+    --color-navy-50: #f0f4f8;
+
+    --color-gold-700: #9a7d26;
+    --color-gold-600: #b8962e;
+    --color-gold-500: #d4af37;
+    --color-gold-400: #e8c547;
+    --color-gold-300: #f0d878;
+    --color-gold-100: #fdf5d3;
+    --color-gold-50: #fefbec;
+
+    --color-silver-600: #6b6e74;
+    --color-silver-500: #8e9196;
+    --color-silver-400: #a8a9ad;
+    --color-silver-300: #c0c0c0;
+    --color-silver-200: #d8d9dc;
+    --color-silver-100: #eceef1;
+    --color-silver-50: #f7f8fa;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-silver-50 font-sans text-navy-800 antialiased selection:bg-gold-500/30 selection:text-navy-950;
+    }
+}
+
+@layer utilities {
+    .font-display {
+        font-family: var(--font-display);
+    }
+
+    .text-gradient-gold {
+        @apply bg-linear-to-r from-gold-600 via-gold-500 to-gold-400 bg-clip-text text-transparent;
+    }
+
+    .text-gradient-navy {
+        @apply bg-linear-to-r from-navy-950 via-navy-800 to-navy-700 bg-clip-text text-transparent;
+    }
+
+    .section-label {
+        @apply inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-gold-600;
+    }
+
+    .section-label::before {
+        content: '';
+        @apply h-[2px] w-6 bg-gold-500 rounded-full;
+    }
+
+    /* Premium glassmorphic cards */
+    .card-glass {
+        @apply rounded-3xl border border-white/50 bg-white/70 shadow-lg shadow-navy-900/5 backdrop-blur-md transition-all duration-300;
+    }
+
+    .card-glass-dark {
+        @apply rounded-3xl border border-white/10 bg-navy-950/80 shadow-xl shadow-black/20 backdrop-blur-md transition-all duration-300;
+    }
+
+    /* Interactive cards */
+    .card-interactive {
+        @apply transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-500/30 hover:shadow-xl hover:shadow-gold-500/5 hover:bg-white;
+    }
+
+    .card-interactive-dark {
+        @apply transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-400/30 hover:shadow-2xl hover:shadow-gold-500/10 hover:bg-navy-900/90;
+    }
+
+    /* Decorative background grids */
+    .bg-grid-glow {
+        background-image: 
+            radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 10% 20%, rgba(10, 22, 40, 0.03) 0%, transparent 40%);
+    }
+
+    .section-alt {
+        @apply bg-silver-100/60 relative overflow-hidden;
+    }
+
+    .section-light {
+        @apply bg-white relative overflow-hidden;
+    }
+}
+
+/* Floating capsule Navigation */
+#main-nav {
+    @apply fixed top-0 inset-x-0 z-50 py-4 transition-all duration-500;
+}
+
+/* On Scroll: Capsule floats nicely */
+#main-nav.nav-scrolled {
+    @apply py-3;
+}
+
+#main-nav-container {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 transition-all duration-500;
+}
+
+#main-nav.nav-scrolled #main-nav-container {
+    @apply px-4 sm:px-8;
+}
+
+#main-nav-inner {
+    @apply flex items-center justify-between gap-4 px-4 py-3 rounded-2xl border border-white/20 bg-white/40 shadow-sm backdrop-blur-lg transition-all duration-500;
+}
+
+#main-nav.nav-scrolled #main-nav-inner {
+    @apply border-silver-200 bg-white/80 shadow-md shadow-navy-900/5 py-2 px-5;
+}
+
+/* Active Link States */
+.nav-link {
+    @apply relative rounded-full px-4 py-2 text-sm font-semibold text-navy-700 transition duration-300 hover:text-gold-600;
+}
+
+.nav-link.is-active {
+    @apply text-gold-600 bg-gold-500/10;
+}
+
+/* Nav Dropdowns */
+.nav-dropdown-menu {
+    @apply overflow-hidden rounded-2xl border border-silver-200/80 bg-white/95 p-1.5 shadow-xl shadow-navy-950/10 backdrop-blur-md transition-all duration-300;
+}
+
+.nav-dropdown-item {
+    @apply block rounded-lg px-4 py-2 text-sm font-medium text-navy-700 transition hover:bg-silver-100 hover:text-gold-600;
+}
+
+.nav-dropdown-item.is-active {
+    @apply bg-gold-500/10 font-semibold text-gold-700;
+}
+
+/* Floating Mobile Overlay Menu */
+#mobile-menu {
+    @apply pointer-events-none fixed inset-x-4 top-20 z-40 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-3xl border border-silver-200/80 bg-white/95 p-6 shadow-2xl opacity-0 -translate-y-4 backdrop-blur-lg transition-all duration-300 ease-out;
+}
+#mobile-menu.menu-open {
+    @apply pointer-events-auto opacity-100 translate-y-0;
+}
+
+/* Mobile Link Styles */
+.nav-mobile-link {
+    @apply block rounded-xl px-4 py-3 text-base font-semibold text-navy-700 transition duration-300 hover:bg-silver-100 hover:text-gold-600;
+}
+
+.nav-mobile-link.is-active {
+    @apply bg-gold-500/10 text-gold-600;
+}
+
+.nav-mobile-sublink {
+    @apply block rounded-lg py-2.5 pl-4 text-sm font-medium text-navy-600 transition duration-200 hover:text-gold-600;
+}
+
+.nav-mobile-sublink.is-active {
+    @apply font-bold text-gold-600 pl-5 border-l-2 border-gold-500;
+}
+
+/* Custom Webkit Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-silver-100;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-silver-300/80 border-2 border-silver-100 hover:bg-silver-400;
+}
+
+/* Section Divider — Infinite Marquee */
+.section-divider {
+    @apply relative overflow-hidden py-5 select-none;
+}
+
+.section-divider::before,
+.section-divider::after {
+    content: '';
+    @apply absolute left-0 right-0 h-px;
+}
+
+.section-divider::before {
+    @apply top-0 bg-linear-to-r from-transparent via-gold-500/25 to-transparent;
+}
+
+.section-divider::after {
+    @apply bottom-0 bg-linear-to-r from-transparent via-gold-500/25 to-transparent;
+}
+
+.marquee-track {
+    @apply flex whitespace-nowrap;
+    animation: marquee-scroll 30s linear infinite;
+}
+
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.marquee-content {
+    @apply flex shrink-0 items-center;
+}
+
+.marquee-text {
+    @apply px-4 text-xs font-bold uppercase tracking-[0.3em] text-gold-500/40 sm:px-6 sm:text-sm sm:tracking-[0.35em];
+    font-family: var(--font-display);
+}
+
+.marquee-dot {
+    @apply h-1 w-1 shrink-0 rounded-full bg-gold-500/30 sm:h-1.5 sm:w-1.5;
+}
+
+.marquee-diamond {
+    @apply shrink-0 text-gold-500/25 text-[10px] sm:text-xs;
+}
+
+/* Reverse direction variant */
+.marquee-track-reverse {
+    animation: marquee-scroll-reverse 35s linear infinite;
+}
+
+.marquee-track-reverse:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-scroll-reverse {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+}
+
+/* Admin panel */
+.admin-input {
+    @apply w-full rounded-lg border border-silver-300 bg-white px-3 py-2 text-sm text-navy-800 shadow-sm transition placeholder:text-silver-500 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/20;
+}
+
+.admin-label {
+    @apply mb-1.5 block text-sm font-medium text-navy-700;
+}
+
+.admin-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-linear-to-r from-gold-600 to-gold-500 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-gold-500/20 transition hover:from-gold-500 hover:to-gold-400 disabled:opacity-50;
+}
+
+.admin-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-silver-300 bg-white px-4 py-2 text-sm font-medium text-navy-700 shadow-sm transition hover:border-gold-500 hover:text-gold-600;
+}
+
+.admin-btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 transition hover:bg-red-100;
+}
+
+.admin-card {
+    @apply rounded-xl border border-silver-300 bg-white p-6 shadow-sm;
+}
+
+.admin-alert-success {
+    @apply mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800;
+}
+
+.admin-alert-error {
+    @apply mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800;
+}
+
+/* Premium Admin Dashboard Components */
+.admin-stat-card {
+    @apply relative overflow-hidden rounded-2xl border border-silver-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-gold-300;
+}
+
+.admin-stat-icon-wrapper {
+    @apply flex h-12 w-12 items-center justify-center rounded-xl bg-gold-50 text-gold-600 transition-transform duration-300 group-hover:scale-110 group-hover:bg-gold-100;
+}
+
+.admin-action-card {
+    @apply flex items-center gap-4 rounded-xl border border-silver-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-navy-300 hover:shadow-md hover:bg-silver-50;
+}
+
+.admin-action-icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-navy-50 text-navy-600;
+}
+
+/* Mobile Sidebar Sliding Animation */
+.admin-sidebar-mobile {
+    @apply fixed inset-y-0 left-0 z-50 w-72 -translate-x-full transition-transform duration-300 ease-in-out lg:hidden;
+}
+
+.admin-sidebar-mobile.is-open {
+    @apply translate-x-0;
+}
+
+.admin-sidebar-overlay {
+    @apply fixed inset-0 z-40 bg-navy-950/50 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden backdrop-blur-sm;
+}
+
+.admin-sidebar-overlay.is-open {
+    @apply opacity-100 pointer-events-auto;
+}
