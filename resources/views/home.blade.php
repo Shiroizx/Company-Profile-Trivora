@@ -78,60 +78,73 @@
         </div>
     </div>
 
-    {{-- Bottom edge mask --}}
-    <div class="absolute -bottom-px left-0 right-0 z-10 translate-y-px">
-        <svg viewBox="0 0 1440 60" class="w-full text-white" preserveAspectRatio="none">
-            <path fill="currentColor" d="M0,60 L1440,60 L1440,0 C1080,45 360,45 0,0 Z"/>
-        </svg>
-    </div>
+    {{-- Bottom gradient fade into white --}}
+    <div class="absolute -bottom-px left-0 right-0 z-10 h-32 bg-gradient-to-t from-white to-transparent"></div>
 </section>
 @endif
 
 @if ($keunggulan)
 @php $keunggulanParagraphs = $keunggulan->body ? preg_split('/\n\n+/', trim($keunggulan->body)) : []; @endphp
-{{-- 2. Keunggulan Kami --}}
-<section id="keunggulan" class="section-light py-24 lg:py-32 bg-grid-glow">
+{{-- 2. Keunggulan Kami — Clean Premium Asymmetric Grid --}}
+<section id="keunggulan" class="relative z-20 bg-white py-24 lg:py-32">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {{-- Section Header --}}
-        <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-16 mb-16">
-            <div class="lg:col-span-6">
+        <div class="grid items-start gap-10 lg:grid-cols-12 lg:gap-20 mb-20">
+            <div class="lg:col-span-5">
                 <span data-aos="fade-up" class="section-label">{{ $keunggulan->section_label }}</span>
-                <h2 data-aos="fade-up" data-aos-delay="100" class="mt-4 font-display text-4xl font-extrabold leading-tight text-navy-900 sm:text-5xl">
+                <h2 data-aos="fade-up" data-aos-delay="100" class="mt-4 font-display text-4xl font-extrabold leading-tight text-navy-900 sm:text-5xl tracking-tight">
                     {{ $keunggulan->title }}
                 </h2>
             </div>
-            <div class="lg:col-span-6 lg:pt-6">
+            <div class="lg:col-span-7 lg:pt-6">
                 @foreach ($keunggulanParagraphs as $i => $paragraph)
-                    <p class="{{ $i === 0 ? '' : 'mt-4' }} text-base leading-relaxed {{ $i === 0 ? 'text-navy-700 font-medium' : 'text-navy-655' }}">
+                    <p data-aos="fade-up" data-aos-delay="{{ 150 + ($i * 80) }}" class="{{ $i === 0 ? '' : 'mt-5' }} text-base leading-relaxed font-sans {{ $i === 0 ? 'text-navy-700 font-medium' : 'text-navy-600' }}">
                         {{ $paragraph }}
                     </p>
                 @endforeach
             </div>
         </div>
 
-        {{-- Bento Grid --}}
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {{-- Asymmetric Bento Grid --}}
+        <div class="grid gap-8 lg:grid-cols-12">
             @foreach ($keunggulan->items as $index => $item)
                 @php
-                    $spanClass = 'sm:col-span-1';
+                    // Asymmetric grid pattern for 4 items: 7-5 split, then 5-7 split
+                    $colSpan = 'lg:col-span-6'; // fallback
                     if ($index === 0) {
-                        $spanClass = 'sm:col-span-2 lg:col-span-2';
+                        $colSpan = 'lg:col-span-7';
+                    } elseif ($index === 1) {
+                        $colSpan = 'lg:col-span-5';
+                    } elseif ($index === 2) {
+                        $colSpan = 'lg:col-span-5';
                     } elseif ($index === 3) {
-                        $spanClass = 'sm:col-span-2 lg:col-span-1';
+                        $colSpan = 'lg:col-span-7';
                     }
                 @endphp
-                <div data-aos="fade-up" data-aos-delay="{{ $index * 100 }}" class="card-glass card-interactive p-8 group relative overflow-hidden {{ $spanClass }} flex flex-col justify-between border-white/40 bg-white/60">
-                    {{-- Ambient glow overlay --}}
-                    <div class="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-gold-500/5 transition-all duration-500 group-hover:bg-gold-500/10"></div>
-                    
-                    <div>
-                        {{-- Serif number tag --}}
-                        <span class="font-display text-4.5xl font-extrabold text-gold-500/30 block mb-3 group-hover:text-gold-500 group-hover:scale-105 transition duration-300 origin-left select-none">
-                            {{ sprintf("%02d", $loop->iteration) }}
+                <div 
+                    data-aos="fade-up" 
+                    data-aos-delay="{{ $index * 100 }}"
+                    class="{{ $colSpan }} group"
+                >
+                    <div class="h-full rounded-2xl border border-silver-200/80 bg-white p-10 lg:p-12 shadow-xs shadow-navy-950/[0.02] hover:shadow-md hover:shadow-navy-950/[0.04] hover:border-gold-500/40 transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+                        {{-- Watermark number --}}
+                        <span class="absolute -right-4 -top-6 font-display text-9xl font-black text-navy-950/[0.02] select-none leading-none group-hover:text-gold-500/[0.05] transition duration-500">
+                            {{ $loop->iteration }}
                         </span>
-                        
-                        <h3 class="font-display text-xl font-bold text-navy-900 group-hover:text-gold-700 transition duration-300">{{ $item->title }}</h3>
-                        <p class="mt-3 text-sm leading-relaxed text-navy-600 max-w-xl">{{ $item->description }}</p>
+
+                        <div>
+                            {{-- Number tag --}}
+                            <span class="font-display text-4xl font-extrabold text-gold-500/40 block mb-6 group-hover:text-gold-500 transition duration-300">
+                                {{ sprintf("%02d", $loop->iteration) }}
+                            </span>
+                            
+                            <h3 class="font-sans text-xl font-bold text-navy-900 group-hover:text-gold-700 transition duration-300">
+                                {{ $item->title }}
+                            </h3>
+                            <p class="mt-4 text-sm leading-relaxed text-navy-600 font-sans max-w-xl">
+                                {{ $item->description }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             @endforeach
