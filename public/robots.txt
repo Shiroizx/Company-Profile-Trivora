@@ -4,4 +4,5 @@ Disallow: /admin
 Disallow: /login
 
 # Sesuaikan dengan domain produksi Anda saat live di hosting
-Sitemap: /sitemap.xml
+Sitemap: https://trivoramitraberkarya.com/sitemap.xml
+Sitemap: https://pt.trivoramitraberkarya.com/sitemap.xml
