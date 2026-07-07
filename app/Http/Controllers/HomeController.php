@@ -98,4 +98,22 @@ class HomeController extends Controller
 
         return redirect()->back()->with('success_message', 'Pesan Anda telah berhasil dikirim ke admin. Terima kasih!');
     }
+
+    public function sitemap(): \Illuminate\Http\Response
+    {
+        $url = url('/');
+        $lastmod = now()->toAtomString();
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+        $xml .= '    <url>' . "\n";
+        $xml .= '        <loc>' . htmlspecialchars($url) . '</loc>' . "\n";
+        $xml .= '        <lastmod>' . $lastmod . '</lastmod>' . "\n";
+        $xml .= '        <changefreq>monthly</changefreq>' . "\n";
+        $xml .= '        <priority>1.0</priority>' . "\n";
+        $xml .= '    </url>' . "\n";
+        $xml .= '</urlset>';
+
+        return response($xml)->header('Content-Type', 'text/xml');
+    }
 }

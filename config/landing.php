@@ -39,6 +39,8 @@ return [
         'meta_description' => 'Meta Description (SEO)',
         'footer_tagline' => 'Tagline Footer',
         'logo_path' => 'Path Logo (relatif ke public/)',
+        'google_verification_code' => 'Google Search Console Verification Code (HTML tag content)',
+        'google_analytics_id' => 'Google Analytics Tracking ID (G-XXXXXX)',
     ],
 
     'extra_fields' => [

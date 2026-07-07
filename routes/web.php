@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 Route::post('/messages', [HomeController::class, 'storeMessage'])->name('messages.store');
 
 Route::get('/setup-storage', function () {

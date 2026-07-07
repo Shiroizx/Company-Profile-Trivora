@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+# Sesuaikan dengan domain produksi Anda saat live di hosting
+Sitemap: /sitemap.xml

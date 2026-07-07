@@ -4,8 +4,83 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ $settings['meta_description'] ?? 'PT Trivora Mitra Berkarya — Jasa keagenan kapal profesional, andal, dan terpercaya di Indonesia.' }}">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Google Search Console Verification -->
+    @if (!empty($settings['google_verification_code']))
+    <meta name="google-site-verification" content="{{ $settings['google_verification_code'] }}">
+    @endif
+
+    <link rel="canonical" href="{{ url()->current() }}">
+
     <title>@yield('title', $settings['company_name'] ?? 'PT Trivora Mitra Berkarya')</title>
     <link rel="icon" href="{{ asset($settings['logo_path'] ?? 'asset/logo.jpeg') }}" type="image/jpeg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', $settings['company_name'] ?? 'PT Trivora Mitra Berkarya')">
+    <meta property="og:description" content="{{ $settings['meta_description'] ?? 'PT Trivora Mitra Berkarya — Jasa keagenan kapal profesional, andal, dan terpercaya di Indonesia.' }}">
+    <meta property="og:image" content="{{ asset($settings['logo_path'] ?? 'asset/logo.jpeg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', $settings['company_name'] ?? 'PT Trivora Mitra Berkarya')">
+    <meta property="twitter:description" content="{{ $settings['meta_description'] ?? 'PT Trivora Mitra Berkarya — Jasa keagenan kapal profesional, andal, dan terpercaya di Indonesia.' }}">
+    <meta property="twitter:image" content="{{ asset($settings['logo_path'] ?? 'asset/logo.jpeg') }}">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "{{ $settings['company_name'] ?? 'PT Trivora Mitra Berkarya' }}",
+      "image": "{{ asset($settings['logo_path'] ?? 'asset/logo.jpeg') }}",
+      "@id": "{{ url('/') }}",
+      "url": "{{ url('/') }}",
+      "telephone": "{{ isset($sections['hubungi_kami']->extra['phone']) ? str_replace(["\r", "\n"], ", ", trim($sections['hubungi_kami']->extra['phone'])) : '+628138287909' }}",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Jl. Swasembada Barat XXV No 19 RT007 RW011, Kebon Bawang, Tj Priok",
+        "addressLocality": "Jakarta Utara",
+        "addressRegion": "DKI Jakarta",
+        "postalCode": "14320",
+        "addressCountry": "ID"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": {{ $sections['lokasi']->extra['latitude'] ?? -6.116518 }},
+        "longitude": {{ $sections['lokasi']->extra['longitude'] ?? 106.885368 }}
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    }
+    </script>
+
+    <!-- Google Analytics -->
+    @if (!empty($settings['google_analytics_id']))
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ $settings['google_analytics_id'] }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ $settings['google_analytics_id'] }}');
+    </script>
+    @endif
+
     @fonts
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
